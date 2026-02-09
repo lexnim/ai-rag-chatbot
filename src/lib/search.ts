@@ -1,0 +1,28 @@
+import { cosineDistance, desc, gt, sql } from "drizzle-orm";
+import { db } from "./db-config";
+import { documents } from "./db-schema";
+import { generateEmbedding } from "./embeddings";
+
+export async function searchDocuments(
+  query: string,
+  limit: number,
+  threshold: number,
+) {
+  const embedding = await generateEmbedding(query);
+
+  const distance = cosineDistance(documents.embedding, embedding);
+  const similarity = sql<number>`(1 - (${distance}))`;
+
+  const similarDocuments = await db
+    .select({
+      id: documents.id,
+      content: documents.content,
+      similarity,
+    })
+    .from(documents)
+    .where(gt(similarity, threshold))
+    .orderBy(desc(similarity))
+    .limit(limit);
+
+  return similarDocuments;
+}
