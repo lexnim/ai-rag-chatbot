@@ -1,0 +1,81 @@
+export const chefs = ["Google", "OpenAI", "Anthropic"];
+
+export const models = [
+  {
+    chef: "Google",
+    chefSlug: "google",
+    id: "gemini-3-pro-preview",
+    name: "Gemini 3 Pro Preview",
+    providers: ["google"],
+  },
+  {
+    chef: "Google",
+    chefSlug: "google",
+    id: "gemini-3-flash-preview",
+    name: "Gemini 3 Flash Preview",
+    providers: ["google"],
+  },
+  {
+    chef: "Google",
+    chefSlug: "google",
+    id: "gemini-flash-latest",
+    name: "Gemini Flash Latest",
+    providers: ["google"],
+  },
+  {
+    chef: "Google",
+    chefSlug: "google",
+    id: "gemini-flash-lite-latest",
+    name: "Gemini Flash-Lite Latest",
+    providers: ["google"],
+  },
+  {
+    chef: "Google",
+    chefSlug: "google",
+    id: "gemini-2.5-pro",
+    name: "Gemini 2.5 Pro",
+    providers: ["google"],
+  },
+  {
+    chef: "Google",
+    chefSlug: "google",
+    id: "gemini-2.5-flash",
+    name: "Gemini 2.5 Flash",
+    providers: ["google"],
+  },
+  {
+    chef: "Google",
+    chefSlug: "google",
+    id: "gemini-2.5-flash-lite",
+    name: "Gemini 2.5 Flash-Lite",
+    providers: ["google"],
+  },
+  {
+    chef: "OpenAI",
+    chefSlug: "openai",
+    id: "gpt-4o",
+    name: "GPT-4o",
+    providers: ["openai", "azure"],
+  },
+  {
+    chef: "OpenAI",
+    chefSlug: "openai",
+    id: "gpt-4o-mini",
+    name: "GPT-4o Mini",
+    providers: ["openai", "azure"],
+  },
+  {
+    chef: "Anthropic",
+    chefSlug: "anthropic",
+    id: "claude-opus-4-20250514",
+    name: "Claude 4 Opus",
+    providers: ["anthropic", "azure", "google", "amazon-bedrock"],
+  },
+  {
+    chef: "Anthropic",
+    chefSlug: "anthropic",
+    id: "claude-sonnet-4-20250514",
+    name: "Claude 4 Sonnet",
+    providers: ["anthropic", "azure", "google", "amazon-bedrock"],
+  },
+];

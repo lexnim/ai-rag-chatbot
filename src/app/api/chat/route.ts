@@ -43,15 +43,35 @@ export type ChatMessage = UIMessage<never, UIDataTypes, ChatTools>;
 
 export async function POST(request: Request) {
   try {
-    const { messages }: { messages: ChatMessage[] } = await request.json();
+    const {
+      model,
+      messages,
+      useWebSearch,
+    }: { model: string; messages: ChatMessage[]; useWebSearch?: boolean } =
+      await request.json();
+
     const result = streamText({
-      model: google("gemini-flash-lite-latest"),
+      model: google(model),
       messages: await convertToModelMessages(messages),
-      tools,
-      system: `You are a helpful assistant with access to a knowledge base. 
-          When users ask questions, search the knowledge base for relevant information.
-          Always search before answering if the question might relate to uploaded documents.
-          Base your answers on the search results when available. Give concise answers that correctly answer what the user is asking for. Do not flood them with all the information from the search results.`,
+      tools: useWebSearch
+        ? {
+            ...tools,
+            google_search: google.tools.googleSearch({}),
+          }
+        : tools,
+      system: `You are a helpful assistant for a chat app where users can:
+- Send text messages and ask questions
+- Upload files (images, PDFs, audio, video) and ask questions about them
+
+You have access to:
+1. Knowledge base search (RAG): Search over documents the user has uploaded. Use this when the question might relate to their uploaded content—always search the knowledge base before answering in those cases.
+2. Web search (when enabled): Search the web for current or general information. Use it when the user needs up-to-date facts or when the knowledge base does not have relevant content.
+
+Guidelines:
+- For questions that may relate to uploaded documents, search the knowledge base first and base your answer on those results when available.
+- When web search is available, use it when you need current information or when the knowledge base has no relevant results.
+- For images, answer based on what you can see in the image and any accompanying text.
+- Give concise, direct answers that address what the user asked. Do not dump long excerpts from search results; summarize and cite when useful.`,
       stopWhen: stepCountIs(2),
     });
 
